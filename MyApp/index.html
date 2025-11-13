@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Language Detect UI</title>
+	<style>
+		:root { --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; --warn:#ef4444; }
+		*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text)}
+		header{padding:24px 16px;text-align:center;border-bottom:1px solid #1f2937}
+		main{max-width:960px;margin:24px auto;padding:0 16px;display:grid;gap:16px}
+		.card{background:var(--panel);border:1px solid #1f2937;border-radius:12px;padding:16px}
+		h1{margin:0;font-size:22px}
+		h2{margin:0 0 12px 0;font-size:18px;color:#cbd5e1}
+		textarea,input,button,select{font:inherit}
+		textarea{width:100%;min-height:90px;border-radius:8px;border:1px solid #374151;background:#0b1220;color:var(--text);padding:10px}
+		input[type="text"]{width:100%;border-radius:8px;border:1px solid #374151;background:#0b1220;color:var(--text);padding:10px}
+		.row{display:grid;gap:10px}
+		@media (min-width:720px){.row-2{grid-template-columns:1fr 220px}}
+		.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+		button{background:#1f2937;border:1px solid #374151;color:var(--text);padding:10px 14px;border-radius:8px;cursor:pointer}
+		button.primary{background:var(--accent);color:#052e16;border-color:#16a34a}
+		.out{background:#0b1220;border:1px solid #374151;border-radius:8px;padding:10px;white-space:pre-wrap;min-height:48px}
+		.muted{color:var(--muted)}
+		.grid{display:grid;gap:16px}
+		.small{font-size:12px}
+		code{background:#0b1220;border:1px solid #374151;padding:2px 6px;border-radius:6px}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Language Detection Playground</h1>
+		<p class="muted small">Uses the backend endpoints: <code>/detect</code>, <code>/detect_probs</code>, <code>/is_language</code>. POST with JSON, no URL encoding needed.</p>
+	</header>
+
+	<main>
+		<section class="card grid">
+			<h2>Detect language</h2>
+			<textarea id="detect-text" placeholder="Type text to detect…">Hello world</textarea>
+			<div class="actions">
+				<button class="primary" id="btn-detect">DETECT</button>
+			</div>
+			<div id="out-detect" class="out muted">Response will appear here…</div>
+		</section>
+
+		<section class="card grid">
+			<h2>Detection probabilities</h2>
+			<textarea id="probs-text" placeholder="Type text…">Bonjour le monde</textarea>
+			<div class="actions">
+				<button class="primary" id="btn-probs">LANGUAGE PROBABILITY</button>
+			</div>
+			<div id="out-probs" class="out muted">Response will appear here…</div>
+		</section>
+
+		<section class="card grid">
+			<h2>Is language?</h2>
+			<div class="row row-2">
+				<textarea id="is-text" placeholder="Type text…">Hola mundo</textarea>
+				<div class="grid">
+					<input id="is-lang" type="text" placeholder="Language code (e.g., es, en, fr)" value="es" />
+					<button class="primary" id="btn-is">IS LANGUAGE</button>
+				</div>
+			</div>
+			<div id="out-is" class="out muted">Response will appear here…</div>
+		</section>
+	</main>
+
+	<script>
+		async function postJSON(path, body) {
+			const res = await fetch(path, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(body)
+			});
+			const text = await res.text();
+			let data;
+			try { data = JSON.parse(text); } catch { data = text; }
+			return { ok: res.ok, status: res.status, data };
+		}
+
+		const $ = (id) => document.getElementById(id);
+
+		$('btn-detect').addEventListener('click', async () => {
+			const text = $('detect-text').value;
+			const out = $('out-detect');
+			out.textContent = 'Loading…';
+			const r = await postJSON('/detect', { text });
+			out.classList.remove('muted');
+			if (r.ok && r.data.language) {
+				out.textContent = `Detected: ${r.data.language}`;
+			} else {
+				out.textContent = `Error: ${JSON.stringify(r.data)}`;
+			}
+		});
+
+		$('btn-probs').addEventListener('click', async () => {
+			const text = $('probs-text').value;
+			const out = $('out-probs');
+			out.textContent = 'Loading…';
+			const r = await postJSON('/detect_probs', { text });
+			out.classList.remove('muted');
+			if (r.ok && r.data.languages) {
+				const langs = r.data.languages.map(l => `${l.lang} (${l.prob.toFixed(2)})`).join(', ');
+				out.textContent = `Probabilities: ${langs}`;
+			} else {
+				out.textContent = `Error: ${JSON.stringify(r.data)}`;
+			}
+		});
+
+		$('btn-is').addEventListener('click', async () => {
+			const text = $('is-text').value;
+			const lang = $('is-lang').value;
+			const out = $('out-is');
+			out.textContent = 'Loading…';
+			const r = await postJSON('/is_language', { text, lang });
+			out.classList.remove('muted');
+			if (r.ok && r.data.requested) {
+				out.textContent = `Requested: ${r.data.requested}, Detected: ${r.data.detected}, Probability: ${r.data.probability.toFixed(2)}, Match: ${r.data.match}`;
+			} else {
+				out.textContent = `Error: ${JSON.stringify(r.data)}`;
+			}
+		});
+	</script>
+</body>
+</html>
