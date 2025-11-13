@@ -15,16 +15,16 @@ This condensed report documents the three exercises for CC_Assignment2 and refer
 
 **Exercise 2 — EC2 screenshots**
 - Add screenshots to: MyApp/docs/screenshots/
-  - ec2_list.png — EC2 instances list (shows instance name, id, public IP)
-  - instance_page.png — service response page (instance id)
+  - Image2.png — EC2 instances list (shows instance name, id, public IP)
+  - Image1.png — service response page (instance id)
 - Observations:
   - Instance name: langdetect-api, ID: i-06e5d8288f463f5fc
   - Public IPv4: 13.51.106.196
   - The service returned the instance id at the /instance endpoint, confirming reachability and metadata usage.
 
 Markdown to include images in README:
-![EC2 list](MyApp/image1.png)
-![Instance page](MyApp/image2.png)
+![EC2 list](MyApp/Image1.png)
+![Instance page](MyApp/Image2.png)
 
 **Exercise 3 — MyApp2 (Monthly Expense Tracker)**
 - Purpose: Minimal Flask expense tracker with CSV import/export and a small client UI.
