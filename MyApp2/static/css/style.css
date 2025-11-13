@@ -1,0 +1,267 @@
+html, body { height: 100%; }
+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: #f8fafc; color: #111827; margin: 0; padding: 28px 48px; }
+.container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1 { margin-top: 0; }
+#chart-section {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 40px; /* increased gap to separate chart and legend */
+	justify-content: flex-start;
+}
+
+/* Header row: title left, salary input right (same baseline) */
+.chart-header {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 6px;
+}
+.chart-header h2 { margin: 0; }
+.chart-header #salary-input { margin: 0; }
+
+/* left column contains salary input stacked above the chart */
+.chart-left { display:flex; flex-direction: column; gap: 18px; flex: 1 1 auto; align-items: flex-start; }
+.chart-left #salary-input { order: 0; width: auto; }
+.chart-left .chart-wrapper { order: 1; margin: 0 auto; /* center under salary */ }
+.chart-left #budget-message { order: 2; }
+#controls { margin-top: 8px; }
+form label { display: inline-block; margin-right: 10px; }
+form input { margin-left: 6px; }
+#expenses-list { list-style: none; padding-left: 0; margin: 0; }
+#expenses-list li { background: #fff; margin: 8px 0; padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+#expenses-list button { background: #ef4444; border: none; color: white; padding: 6px 10px; border-radius: 4px; cursor: pointer; }
+#expenses-list button:hover { opacity: 0.9 }
+
+/* small swatch next to category select */
+/* unified swatch styling for button and options */
+.category-swatch, .custom-option .sw, #category-button-swatch {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	border-radius: 6px;
+	vertical-align: middle;
+	border: 1px solid rgba(0,0,0,0.12);
+	box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset;
+}
+.category-swatch { margin-left: 12px; }
+
+/* custom select styles */
+.hidden-select { display: none; }
+.custom-select { position: relative; display: inline-block; vertical-align: middle; }
+.custom-select-btn { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; font-size: 16px; min-width: 260px; justify-content: space-between; }
+.custom-select-btn .left { display: inline-flex; align-items: center; gap: 10px; }
+.custom-select-btn .caret { margin-left: 6px; color: #6b7280; font-size: 18px; line-height: 1; }
+
+/* make Amount, Category (custom button) and Date visually identical */
+form input[type="number"],
+form input[type="date"],
+.custom-select-btn {
+	box-sizing: border-box;
+	height: 44px;
+	padding: 10px 14px;
+	font-size: 16px;
+	border-radius: 8px;
+	border: 1px solid #e5e7eb;
+	background: #fff;
+	min-width: 260px;
+}
+
+/* ensure inputs align with labels */
+form label { display: inline-flex; align-items: center; gap: 8px; }
+
+/* layout the add-form controls in one line on wider screens */
+#add-form { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+#add-form label { margin: 0; }
+
+@media (min-width: 640px) {
+	/* keep them on a single line when there's enough width */
+	#add-form { flex-wrap: nowrap; }
+}
+.custom-options { display: none; position: absolute; left: 0; right: 0; max-height: 220px; overflow: auto; background: #fff; border: 1px solid #e5e7eb; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); border-radius: 6px; margin-top: 6px; padding: 6px; z-index: 50; }
+.custom-options.open { display: block; }
+.custom-option { display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer; border-radius: 6px; }
+.custom-option:hover { background: #f3f4f6 }
+.custom-option .label { font-size: 16px; color: #111827; }
+
+/* import/export card */
+/* import/export card: subtle bluish border, soft background and roomy padding to match screenshot */
+.import-export {
+	/* very compact card that tightly wraps the three tiles */
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	background: #fff;
+	padding: 8px 10px; /* compact padding */
+	border-radius: 12px;
+	border: 1px solid rgba(99,102,241,0.05);
+	box-shadow: 0 6px 14px rgba(99,102,241,0.02);
+	margin: 12px 0;
+	justify-content: center;
+	flex-direction: column;
+	max-width: 280px; /* tight width to closely wrap tiles */
+	width: auto;
+}
+.hidden-file { display: none; }
+.import-export .btn-secondary { margin: 0 }
+.import-export .hint { margin-left: 12px }
+
+.import-export { max-width: 280px; margin: 12px 0; display: flex; flex-direction: column; align-items: center; }
+.import-export .import-meta { display: flex; flex-direction: column; gap: 6px; align-items: center; text-align: center; margin-top: 8px; width: auto; }
+.import-export .filename { color: #374151; font-weight: 600 }
+.import-export .status { color: #6b7280; font-size: 0.95em }
+.btn-primary { background: #2563eb; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: transform 0.08s ease, box-shadow 0.12s ease; }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,99,235,0.12) }
+
+/* Make the three import/export controls match visually (same tile size/shape) */
+/* unified tile class for the three controls */
+.import-export .tiles { display: flex; gap: 10px; align-items: center; justify-content: center; width: auto; }
+
+/* professional tile: white panel, icon circle, small label */
+.import-export .tile {
+	--tile-size: 76px; /* slightly smaller tiles */
+	-webkit-appearance: none;
+	appearance: none;
+	box-sizing: border-box;
+	display: inline-flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	width: var(--tile-size) !important;
+	height: var(--tile-size) !important;
+	min-width: var(--tile-size) !important;
+	min-height: var(--tile-size) !important;
+	padding: 6px 8px !important; /* reduced padding for tighter appearance */
+	border-radius: 12px !important;
+	background: #fff !important;
+	color: #0f172a !important;
+	border: 1px solid rgba(15,23,42,0.06) !important;
+	box-shadow: 0 6px 12px rgba(15,23,42,0.035) !important; /* softer shadow */
+	cursor: pointer !important;
+	text-align: center !important;
+	overflow: hidden !important;
+	transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.import-export .tile:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 18px 40px rgba(15,23,42,0.08); }
+.import-export .tile:active { transform: translateY(-2px) scale(0.995); }
+
+.import-export .tile .tile-icon {
+	width: 40px; /* slightly smaller icon circle */
+	height: 40px;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+	box-shadow: 0 6px 18px rgba(37,99,235,0.10);
+}
+.import-export .tile .tile-icon svg { display: block; width: 16px; height: 16px; }
+.import-export .tile .tile-label { display: block; margin-top: 6px; font-weight: 700; font-size: 13px; color: #0f172a; line-height: 1; }
+.import-export .tile .tile-sub { display: block; font-size: 10px; color: #94a3b8; margin-top: 4px; line-height: 1; text-transform: uppercase; letter-spacing: 0.6px }
+
+/* normalize button vs label rendering so all tiles are identical */
+.import-export button.tile,
+.import-export label.tile {
+	background: inherit;
+	border: none;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+}
+
+/* accessible focus style */
+.import-export .tile:focus-visible { outline: 3px solid rgba(59,130,246,0.18); outline-offset: 3px; }
+
+/* small tweak: make the Choose label act like a button (cursor) */
+.import-export label.tile { cursor: pointer; }
+
+/* right side meta: center vertically and allow filename to truncate elegantly */
+.import-export .import-meta { display: flex; align-items: center; gap: 12px; margin-left: 16px; }
+.import-export .filename { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* disabled import tile */
+.import-export button.tile[disabled] { opacity: 0.48; cursor: not-allowed; box-shadow: none; transform: none; background: #fbfbfe }
+.import-export button.tile[disabled] .tile-icon { filter: grayscale(60%) brightness(0.92); }
+
+/* Tweak secondary buttons to match the new visual style */
+.btn-secondary {
+	background: #f8fafc;
+	color: #0f172a;
+	border: 1px solid #e6eefc;
+	padding: 10px 14px;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background 0.12s ease, transform 0.08s ease;
+}
+.btn-secondary:hover { background: #eef2ff; transform: translateY(-1px); }
+
+.hint { display: inline-block; margin-left: 8px; color: #6b7280 }
+
+/* import file input style: keep native input hidden (we use the styled label) */
+#import-file { display: none; margin-left: 8px }
+
+/* Chart wrapper to keep doughnut circular and constrained */
+.chart-wrapper {
+	flex: 1 1 520px; /* reduce base size so chart appears smaller */
+	width: 100%;
+	max-width: 520px; /* smaller max width to shrink chart */
+	position: relative;
+	min-height: 360px; /* reasonable fallback height to avoid zero-size when layout collapses */
+	margin-bottom: 8px;
+}
+/* keep the chart perfectly square by using the padding-top technique */
+.chart-wrapper:before {
+	content: '';
+	display: block;
+	padding-top: 100%;
+}
+.chart-wrapper canvas { position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; display: block; }
+
+/* Legend styling */
+#alloc-legend {
+	margin-top: 0;
+	width: 360px;
+	max-width: 380px;
+	align-self: flex-start;
+	padding-left: 22px; /* space from border */
+	margin-left: 8px;
+	border-left: 1px solid rgba(15,23,42,0.04); /* subtle separator */
+}
+
+/* Legend row styles (use classes applied from JS) */
+#alloc-legend .alloc-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 6px; }
+#alloc-legend .alloc-left { display: flex; align-items: center; gap: 12px; }
+#alloc-legend .alloc-swatch { display:inline-block; width:14px; height:14px; border-radius:3px; }
+#alloc-legend .alloc-label { font-size:16px; color: #0f172a; }
+#alloc-legend .alloc-right { text-align: right; min-width:120px; }
+#alloc-legend .alloc-amount { font-weight:700; font-size:15px; }
+#alloc-legend .alloc-sub { font-size:0.9em; color:#666; }
+#alloc-legend .alloc-row.remaining .alloc-amount { color: #059669; }
+
+/* budget message (shown when overspent) */
+.budget-message {
+	margin-top: 8px;
+	font-weight: 700;
+	font-size: 15px;
+	color: #dc2626; /* red when overspent */
+	text-align: center;
+}
+
+/* Make the expenses list scrollable when it grows large */
+#controls { display: block; width: 100%; }
+#expenses-list-container { max-height: 280px; overflow: auto; padding-right: 6px; }
+
+@media (min-width: 900px) {
+	.container { max-width: 900px; }
+}
+
+/* responsive: stack chart and legend on narrow screens */
+@media (max-width: 840px) {
+	#chart-section { flex-direction: column; align-items: center; }
+	.chart-wrapper { height: 420px; max-width: 520px; }
+	#alloc-legend { width: 100%; max-width: 520px; padding-left: 0; margin-top: 12px; border-left: none; }
+	/* no special transform on narrow screens */
+	.chart-left .chart-wrapper { transform: none; }
+}
