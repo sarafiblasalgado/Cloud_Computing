@@ -2,8 +2,8 @@
 
 Date: 2025-11-01
 
-Summary
-This condensed report documents the three exercises for CC_Assignment2 and references included EC2 screenshots.
+Summary:
+this condensed report documents the three exercises for CC_Assignment2 and references included EC2 screenshots.
 
 **Exercise 1 — MyApp (language detection)**
 - Purpose: Flask microservice that detects language using langdetect.
@@ -19,10 +19,10 @@ This condensed report documents the three exercises for CC_Assignment2 and refer
   - Image1.png — service response page (instance id)
 - Observations:
   - Instance name: langdetect-api, ID: i-06e5d8288f463f5fc
-  - Public IPv4: 13.51.106.196
+  - Public IPv4: 13.51.106.196 (this will change after stopping and re-running the instance)
   - The service returned the instance id at the /instance endpoint, confirming reachability and metadata usage.
 
-Markdown to include images in README:
+Images required:
 ![EC2 list](MyApp/Image1.png)
 ![Instance page](MyApp/Image2.png)
 
