@@ -27,7 +27,7 @@ Markdown to include images in README:
 ![Instance page](MyApp/Image2.png)
 
 **Exercise 3 — MyApp2 (Monthly Expense Tracker)**
-- Purpose: Minimal Flask expense tracker with CSV import/export and a small client UI.
+- Purpose: Minimal Flask expense tracker with CSV import/export.
 - Key files: MyApp2/app.py, MyApp2/templates/index.html, MyApp2/static/js/main.js, MyApp2/test_import.csv
 - Run:
   python3 -m venv .venv
