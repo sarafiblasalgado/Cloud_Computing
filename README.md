@@ -23,8 +23,8 @@ This condensed report documents the three exercises for CC_Assignment2 and refer
   - The service returned the instance id at the /instance endpoint, confirming reachability and metadata usage.
 
 Markdown to include images in README:
-![EC2 list](MyApp/docs/screenshots/ec2_list.png)
-![Instance page](MyApp/docs/screenshots/instance_page.png)
+![EC2 list](MyApp/image1.png)
+![Instance page](MyApp/image2.png)
 
 **Exercise 3 — MyApp2 (Monthly Expense Tracker)**
 - Purpose: Minimal Flask expense tracker with CSV import/export and a small client UI.
